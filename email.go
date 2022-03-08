@@ -36,22 +36,22 @@ type Email struct {
 	ReplyTo string `json:"ReplyTo"`
 
 	// Email subject
-	Subject string `json:"Subject"`
+	Subject string `json:"Subject,omitempty"`
 
 	// Email body as HTML
-	HTMLBody string `json:"HtmlBody"`
+	HTMLBody string `json:"HtmlBody,omitempty"`
 	// Email body as text
-	TextBody string `json:"TextBody"`
+	TextBody string `json:"TextBody,omitempty"`
 
 	TrackOpens bool   `json:"TrackOpens"`
-	TrackLinks string `json:"TrackLinks"`
+	TrackLinks string `json:"TrackLinks,omitempty"`
 
-	Attachments []Attachment `json:"Attachments"`
-	Headers     []Header     `json:"Headers"`
+	Attachments []Attachment `json:"Attachments,omitempty"`
+	Headers     []Header     `json:"Headers,omitempty"`
 
-	Metadata      Metadata `json:"Metadata"`
-	MessageStream string   `json:"MessageStream"`
-	Tag           string   `json:"Tag"`
+	Metadata      *Metadata `json:"Metadata,omitempty"`
+	MessageStream string    `json:"MessageStream,omitempty"`
+	Tag           string    `json:"Tag,omitempty"`
 }
 
 // Validate will validate an email
