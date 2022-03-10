@@ -10,7 +10,8 @@ import (
 const (
 	host = "https://api.postmarkapp.com"
 
-	endpointEmail = "/email"
+	endpointEmail             = "/email"
+	endpointEmailWithTemplate = "/email/withTemplate"
 )
 
 var hostURL = parseURL(host)
@@ -82,5 +83,19 @@ func (c *Client) Email(e Email) (resp EmailResponse, err error) {
 
 	// Make POST request to the email endpoint with the request buffer as the body
 	err = c.request("POST", endpointEmail, buf, &resp)
+	return
+}
+
+// Email will send an email
+func (c *Client) EmailWithTemplate(e EmailWithTemplate) (resp EmailResponse, err error) {
+	// Initialize buffer to write request body to
+	buf := bytes.NewBuffer(nil)
+	// Write email request as JSON to the buffer
+	if err = json.NewEncoder(buf).Encode(e); err != nil {
+		return
+	}
+
+	// Make POST request to the email endpoint with the request buffer as the body
+	err = c.request("POST", endpointEmailWithTemplate, buf, &resp)
 	return
 }
