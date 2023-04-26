@@ -1,5 +1,5 @@
-module github.com/luxraise/postmark
+module github.com/itsmontoya/postmark
 
-go 1.15
+go 1.20
 
 require github.com/hatchify/errors v0.4.82
