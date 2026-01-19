@@ -1,14 +1,14 @@
 package postmark
 
-import "github.com/hatchify/errors"
+import "errors"
 
-const (
+var (
 	// ErrEmptyToAddress is returned when an "to" address is empty
-	ErrEmptyToAddress = errors.Error("invalid \"to\" address, cannot be empty")
+	ErrEmptyToAddress = errors.New("invalid \"to\" address, cannot be empty")
 	// ErrEmptyFromAddress is returned when an "from" address is empty
-	ErrEmptyFromAddress = errors.Error("invalid \"from\" address, cannot be empty")
+	ErrEmptyFromAddress = errors.New("invalid \"from\" address, cannot be empty")
 	// ErrEmptyBody is returned when an HTML body and text body are empty
-	ErrEmptyBody = errors.Error("invalid body, both HTML body and text body cannot be empty")
+	ErrEmptyBody = errors.New("invalid body, both HTML body and text body cannot be empty")
 )
 
 // MakeEmail will initialize an Email value
@@ -56,18 +56,18 @@ type Email struct {
 
 // Validate will validate an email
 func (e *Email) Validate() (err error) {
-	var errs errors.ErrorList
+	var errs []error
 	if len(e.To) == 0 {
-		errs.Push(ErrEmptyToAddress)
+		errs = append(errs, ErrEmptyToAddress)
 	}
 
 	if len(e.From) == 0 {
-		errs.Push(ErrEmptyFromAddress)
+		errs = append(errs, ErrEmptyFromAddress)
 	}
 
 	if len(e.TextBody) == 0 && len(e.HTMLBody) == 0 {
-		errs.Push(ErrEmptyBody)
+		errs = append(errs, ErrEmptyBody)
 	}
 
-	return errs.Err()
+	return errors.Join(errs...)
 }
